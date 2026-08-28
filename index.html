@@ -27,23 +27,24 @@
       padding: 16px;
     }
 
-    header {
+   header {
       text-align: center;
       margin-bottom: 12px;
-      color: #ffffff;
-      flex-shrink: 0; /* Impede o cabeçalho de encolher */
+      flex-shrink: 0;
     }
 
-    header h1 {
-      font-size: 1.6rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
+   header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #ffffff !important; /* Força o branco no título */
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
     }
 
     header p {
       margin-top: 4px;
-      font-size: 0.85rem;
-      color: #cfd8dc;
+      font-size: 0.95rem;
+      color: #ffffff !important; /* Força o branco no subtítulo */
+      opacity: 0.9;
     }
 
     /* O container ocupa todo o espaço restante da tela */
@@ -154,17 +155,18 @@
 
     footer {
       margin-top: 8px;
-      color: #90a4ae;
-      font-size: 0.75rem;
+      color: #ffffff !important; /* Deixa o texto do rodapé visível */
+      font-size: 0.85rem;
       text-align: center;
-      flex-shrink: 0; /* Impede o rodapé de encolher */
+      flex-shrink: 0;
+      opacity: 0.8;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>📊 Acompanhamento Cambial</h1>
+    <h1>📊 Acompanhamento Cambial BNA - Angola</h1>
     <p>Painel interativo — clique, filtre e explore os dados para análise mais detalhada.</p>
   </header>
 
@@ -194,11 +196,11 @@
       </div>
 
       <iframe
-        id="dashboardFrame"
-        title="TaxaCambial"
-        src="https://app.powerbi.com/view?r=eyJrIjoiN2QzZWI3N2YtMWI3Ny00MmZlLTkwYzQtYjRiMzI1MDUxMzhjIiwidCI6IjAzZmZkMTBlLTIyY2YtNDFlNS1iNmZlLWMxOWFkMjllYjYxNSJ9"
-        allowFullScreen="true">
-      </iframe>
+  id="dashboardFrame"
+  title="TaxaCambial"
+  src="https://app.powerbi.com/view?r=eyJrIjoiN2QzZWI3N2YtMWI3Ny00MmZlLTkwYzQtYjRiMzI1MDUxMzhjIiwidCI6IjAzZmZkMTBlLTIyY2YtNDFlNS1iNmZlLWMxOWFkMjllYjYxNSJ9&language=pt-BR"
+  allowFullScreen="true">
+</iframe>
 
     </div>
   </div>
