@@ -20,17 +20,110 @@
 
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      background: radial-gradient(ellipse at 50% -10%, #10243a 0%, #050b16 45%, #000004 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 16px;
+      position: relative;
     }
 
+    /* ===== FUNDO ESPACIAL (estrelas + planeta girando) ===== */
+    .space-bg {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .stars, .stars2 {
+      position: absolute;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      background-repeat: repeat;
+    }
+
+    .stars {
+      background-image:
+        radial-gradient(1.2px 1.2px at 20px 30px, #fff, transparent),
+        radial-gradient(1px 1px at 90px 60px, #fff, transparent),
+        radial-gradient(1.6px 1.6px at 130px 120px, #fff, transparent),
+        radial-gradient(1px 1px at 170px 10px, #fff, transparent),
+        radial-gradient(1.4px 1.4px at 200px 150px, #fff, transparent),
+        radial-gradient(1px 1px at 45px 170px, #fff, transparent);
+      background-size: 240px 240px;
+      opacity: 0.85;
+      animation: twinkle 4s ease-in-out infinite alternate, drift 120s linear infinite;
+    }
+
+    .stars2 {
+      background-image:
+        radial-gradient(1px 1px at 60px 80px, #cfe8ff, transparent),
+        radial-gradient(1.3px 1.3px at 150px 40px, #cfe8ff, transparent),
+        radial-gradient(1px 1px at 220px 190px, #cfe8ff, transparent),
+        radial-gradient(1.2px 1.2px at 10px 210px, #cfe8ff, transparent);
+      background-size: 320px 320px;
+      opacity: 0.6;
+      animation: twinkle 6s ease-in-out infinite alternate-reverse, drift 200s linear infinite reverse;
+    }
+
+    @keyframes twinkle {
+      from { opacity: 0.35; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes drift {
+      from { transform: translate(0, 0); }
+      to   { transform: translate(-160px, -100px); }
+    }
+
+    .planet-wrap {
+      position: absolute;
+      top: -16vh;
+      left: 50%;
+      transform: translateX(-50%);
+      width: clamp(320px, 46vw, 640px);
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow:
+        0 0 60px 12px rgba(90, 180, 255, 0.35),
+        0 0 160px 50px rgba(30, 100, 170, 0.25),
+        inset -25px -25px 60px rgba(0, 0, 0, 0.7);
+    }
+
+    .planet-sphere {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://eoimages.gsfc.nasa.gov/images/imagerecords/57000/57735/land_ocean_ice_cloud_2048.jpg');
+      background-repeat: repeat-x;
+      background-size: 640px 100%;
+      animation: spin-earth 50s linear infinite;
+    }
+
+    @keyframes spin-earth {
+      from { background-position: 0 0; }
+      to   { background-position: -640px 0; }
+    }
+
+    .planet-shade {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 32% 28%, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0) 32%),
+        radial-gradient(circle at 72% 78%, rgba(0,0,10,0.8) 0%, rgba(0,0,10,0.2) 55%, rgba(0,0,10,0) 75%);
+    }
+
+    /* ===== CONTEÚDO (acima do fundo espacial) ===== */
    header {
       text-align: center;
       margin-bottom: 12px;
       flex-shrink: 0;
+      position: relative;
+      z-index: 1;
     }
 
    header h1 {
@@ -57,6 +150,7 @@
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
       overflow: hidden;
       position: relative;
+      z-index: 1;
     }
 
     .iframe-wrapper {
@@ -95,8 +189,8 @@
     }
 
     .loading-logo {
-      width: 180px;
-      max-width: 60%;
+      width: 230px;
+      max-width: 65%;
       margin-bottom: 28px;
       opacity: 0.95;
     }
@@ -160,10 +254,21 @@
       text-align: center;
       flex-shrink: 0;
       opacity: 0.8;
+      position: relative;
+      z-index: 1;
     }
   </style>
 </head>
 <body>
+
+  <div class="space-bg">
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="planet-wrap">
+      <div class="planet-sphere"></div>
+      <div class="planet-shade"></div>
+    </div>
+  </div>
 
   <header>
     <h1>📊 Acompanhamento Cambial BNA - Angola</h1>
@@ -174,26 +279,55 @@
     <div class="iframe-wrapper">
 
       <div class="loading-screen" id="loadingScreen">
-        <img
-          class="loading-logo"
-          src="https://hrpservicos.com.br/_astro/hrp-logo.0LBAsylc_Z2e68Xe.svg"
-          alt="HRP Serviços"
-        />
-        
-        <div class="loading-icon coin-pulse">
-          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="32" cy="32" r="28" stroke="#2c5364" stroke-width="3"/>
-            <path class="chart-line" d="M14 38 L24 28 L32 34 L42 20 L50 26"
-                  stroke="#2c5364" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M42 20 L50 20 L50 28" stroke="#2c5364" stroke-width="3"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
 
-        <div class="loading-text">
-          Carregando dashboard<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
-        </div>
-      </div>
+  <img
+    class="loading-logo"
+    src="https://hrpparticipacoes.com.br/assets/hrp-logotipo.png"
+    alt="HRP Participações"
+  />
+
+  <div class="loading-icon coin-pulse">
+    <svg viewBox="0 0 64 64" fill="none"
+         xmlns="http://www.w3.org/2000/svg">
+
+      <circle
+        cx="32"
+        cy="32"
+        r="28"
+        stroke="#2c5364"
+        stroke-width="3"
+      />
+
+      <path
+        class="chart-line"
+        d="M14 38 L24 28 L32 34 L42 20 L50 26"
+        stroke="#2c5364"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+
+      <path
+        d="M42 20 L50 20 L50 28"
+        stroke="#2c5364"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+
+    </svg>
+  </div>
+
+  <div class="loading-text">
+    Carregando dashboard
+    <span class="loading-dots">
+      <span>.</span>
+      <span>.</span>
+      <span>.</span>
+    </span>
+  </div>
+
+</div>
 
       <iframe
   id="dashboardFrame"
@@ -206,7 +340,7 @@
   </div>
 
   <footer>
-    Dados atualizados diariamente pelo banco BNA | v1.0.0.2 Marco Tulio
+    Dados atualizados diariamente pelo banco BNA | v2.0.0 Marco Tulio
   </footer>
 
   <script>
